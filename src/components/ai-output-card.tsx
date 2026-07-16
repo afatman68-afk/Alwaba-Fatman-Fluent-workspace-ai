@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Copy, Download, Printer, RefreshCw, Trash2, Check, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
+import { stripMarkdown } from "@/lib/format";
 
 export function AiOutputCard({
   title,
@@ -26,19 +27,20 @@ export function AiOutputCard({
   const [editing, setEditing] = useState(false);
   const [copied, setCopied] = useState(false);
   const ref = useRef<HTMLTextAreaElement>(null);
+  const cleanContent = useMemo(() => (editing ? content : stripMarkdown(content)), [content, editing]);
 
   useEffect(() => {
     if (editing) ref.current?.focus();
   }, [editing]);
 
   const copy = async () => {
-    await navigator.clipboard.writeText(content);
+    await navigator.clipboard.writeText(cleanContent);
     setCopied(true);
     toast.success("Copied to clipboard");
     setTimeout(() => setCopied(false), 1500);
   };
   const download = () => {
-    const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+    const blob = new Blob([cleanContent], { type: "text/plain;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -50,7 +52,7 @@ export function AiOutputCard({
     const w = window.open("", "_blank");
     if (!w) return;
     w.document.write(
-      `<pre style="font: 14px/1.6 ui-sans-serif,system-ui;white-space:pre-wrap;padding:24px">${content
+      `<pre style="font: 14px/1.6 ui-sans-serif,system-ui;white-space:pre-wrap;padding:24px">${cleanContent
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")}</pre>`,
     );
@@ -139,7 +141,7 @@ export function AiOutputCard({
             />
           ) : (
             <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-foreground">
-              {content}
+              {cleanContent}
               {loading && <span className="ml-1 inline-block h-4 w-2 animate-pulse bg-primary/60 align-middle" />}
             </pre>
           )

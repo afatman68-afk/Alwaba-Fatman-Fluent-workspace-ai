@@ -3,6 +3,16 @@ import { generateText } from "ai";
 import { z } from "zod";
 import { createLovableAiGatewayProvider, DEFAULT_MODEL } from "./ai-gateway.server";
 
+const PLAIN_TEXT_RULE = `
+Formatting rules (strict):
+- Reply in plain professional text. No markdown symbols.
+- Do not use #, *, _, backticks, or table pipe characters.
+- Section titles: write them as UPPERCASE labels on their own line (e.g. EXECUTIVE SUMMARY).
+- Bullets: use "- " at the start of a line. Nothing else.
+- Do not draw ASCII tables. If tabular, write one item per line with fields separated by " — ".
+- Keep it concise and scannable.
+`.trim();
+
 const Input = z.object({
   system: z.string().min(1),
   prompt: z.string().min(1).max(50000),
@@ -17,7 +27,7 @@ export const runAi = createServerFn({ method: "POST" })
     try {
       const { text } = await generateText({
         model: gateway(DEFAULT_MODEL),
-        system: data.system,
+        system: `${data.system}\n\n${PLAIN_TEXT_RULE}`,
         prompt: data.prompt,
       });
       return { text };
