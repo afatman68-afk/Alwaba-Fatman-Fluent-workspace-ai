@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Send, Sparkles, Trash2, Copy, Pencil, Check, User, Bot } from "lucide-react";
 import { toast } from "sonner";
+import { stripMarkdown } from "@/lib/format";
 
 export const Route = createFileRoute("/chat")({
   component: ChatPage,
@@ -268,7 +269,7 @@ function MessageBubble({
           ) : streaming ? (
             <TypingDots />
           ) : (
-            <pre className="whitespace-pre-wrap font-sans">{msg.content}</pre>
+            <pre className="whitespace-pre-wrap font-sans">{isUser ? msg.content : stripMarkdown(msg.content)}</pre>
           )}
         </div>
         {!streaming && msg.content && (
