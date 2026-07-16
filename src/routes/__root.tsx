@@ -84,14 +84,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "A privacy-first AI workplace assistant for summaries, planning, research, and chat. Nothing is stored — every session is temporary.",
       },
-      { property: "og:title", content: "Fluent AI — Workplace Productivity Assistant" },
+      { property: "og:title", content: "Fluent AI — Stateless Workplace Productivity Assistant" },
       {
         property: "og:description",
         content:
-          "Summaries, task planning, research and chat powered by AI. Stateless and private by design.",
+          "A privacy-first AI workplace assistant for summaries, planning, research, and chat. Nothing is stored — every session is temporary.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Fluent AI — Stateless Workplace Productivity Assistant" },
+      { name: "twitter:description", content: "A privacy-first AI workplace assistant for summaries, planning, research, and chat. Nothing is stored — every session is temporary." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/35d07d07-cb73-44c3-9254-e9194cc47a7b" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/35d07d07-cb73-44c3-9254-e9194cc47a7b" },
     ],
     links: [
       {
