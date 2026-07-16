@@ -141,7 +141,7 @@ export function AiOutputCard({
             />
           ) : (
             <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-foreground">
-              {content}
+              {cleanContent}
               {loading && <span className="ml-1 inline-block h-4 w-2 animate-pulse bg-primary/60 align-middle" />}
             </pre>
           )
