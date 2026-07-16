@@ -40,7 +40,7 @@ export function AiOutputCard({
     setTimeout(() => setCopied(false), 1500);
   };
   const download = () => {
-    const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+    const blob = new Blob([cleanContent], { type: "text/plain;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -52,7 +52,7 @@ export function AiOutputCard({
     const w = window.open("", "_blank");
     if (!w) return;
     w.document.write(
-      `<pre style="font: 14px/1.6 ui-sans-serif,system-ui;white-space:pre-wrap;padding:24px">${content
+      `<pre style="font: 14px/1.6 ui-sans-serif,system-ui;white-space:pre-wrap;padding:24px">${cleanContent
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")}</pre>`,
     );
