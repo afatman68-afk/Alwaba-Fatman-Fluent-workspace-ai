@@ -27,13 +27,14 @@ export function AiOutputCard({
   const [editing, setEditing] = useState(false);
   const [copied, setCopied] = useState(false);
   const ref = useRef<HTMLTextAreaElement>(null);
+  const cleanContent = useMemo(() => (editing ? content : stripMarkdown(content)), [content, editing]);
 
   useEffect(() => {
     if (editing) ref.current?.focus();
   }, [editing]);
 
   const copy = async () => {
-    await navigator.clipboard.writeText(content);
+    await navigator.clipboard.writeText(cleanContent);
     setCopied(true);
     toast.success("Copied to clipboard");
     setTimeout(() => setCopied(false), 1500);
